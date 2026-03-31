@@ -1,0 +1,163 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Paper Pipeline Progress",
+  "description": "进度文件格式定义，用于跟踪论文批处理进度",
+  "type": "object",
+  "required": ["batch_id", "input_dir", "output_dir", "created_at", "papers"],
+  "properties": {
+    "batch_id": {
+      "type": "string",
+      "description": "批处理唯一标识符，格式为 batch_YYYYMMDD_XXX",
+      "pattern": "^batch_\\d{8}_\\d{3}$"
+    },
+    "input_dir": {
+      "type": "string",
+      "description": "输入PDF目录的绝对路径"
+    },
+    "output_dir": {
+      "type": "string",
+      "description": "输出目录的绝对路径"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "批处理创建时间，ISO 8601格式"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "最后更新时间，ISO 8601格式"
+    },
+    "config": {
+      "type": "object",
+      "description": "批处理配置",
+      "properties": {
+        "skip_existing": {
+          "type": "boolean",
+          "default": true,
+          "description": "是否跳过已存在的输出文件"
+        },
+        "quality_threshold": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "default": 0.7,
+          "description": "质量检查阈值"
+        }
+      }
+    },
+    "papers": {
+      "type": "array",
+      "description": "论文处理状态列表",
+      "items": {
+        "type": "object",
+        "required": ["pdf_file", "status"],
+        "properties": {
+          "pdf_file": {
+            "type": "string",
+            "description": "PDF文件名"
+          },
+          "pdf_path": {
+            "type": "string",
+            "description": "PDF文件绝对路径"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["pending", "in_progress", "completed", "failed", "skipped"],
+            "description": "处理状态"
+          },
+          "translation_file": {
+            "type": "string",
+            "description": "翻译输出文件名"
+          },
+          "translation_path": {
+            "type": "string",
+            "description": "翻译输出文件绝对路径"
+          },
+          "report_file": {
+            "type": "string",
+            "description": "报告输出文件名"
+          },
+          "report_path": {
+            "type": "string",
+            "description": "报告输出文件绝对路径"
+          },
+          "quality_score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "翻译质量分数"
+          },
+          "report_quality_score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "报告质量分数"
+          },
+          "pdf_pages": {
+            "type": "integer",
+            "description": "PDF页数"
+          },
+          "translation_lines": {
+            "type": "integer",
+            "description": "翻译文件行数"
+          },
+          "report_lines": {
+            "type": "integer",
+            "description": "报告文件行数"
+          },
+          "processed_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "处理完成时间"
+          },
+          "duration_seconds": {
+            "type": "number",
+            "description": "处理耗时（秒）"
+          },
+          "error": {
+            "type": "string",
+            "description": "错误信息（如有）"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "警告信息列表"
+          }
+        }
+      }
+    },
+    "statistics": {
+      "type": "object",
+      "description": "批处理统计信息",
+      "properties": {
+        "total_papers": {
+          "type": "integer",
+          "description": "论文总数"
+        },
+        "completed": {
+          "type": "integer",
+          "description": "已完成数量"
+        },
+        "failed": {
+          "type": "integer",
+          "description": "失败数量"
+        },
+        "pending": {
+          "type": "integer",
+          "description": "待处理数量"
+        },
+        "average_quality_score": {
+          "type": "number",
+          "description": "平均质量分数"
+        },
+        "total_duration_seconds": {
+          "type": "number",
+          "description": "总处理时长（秒）"
+        }
+      }
+    }
+  }
+}
