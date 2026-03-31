@@ -4,10 +4,20 @@
 
 ## 安装
 
-将 `paper-pipeline-zh` 目录放入 Claude Code 的 skills 目录：
+### 方法1: 下载Release包（推荐）
+
+从 [Releases](https://github.com/Markzou46/PaperReaderZQ/releases/latest) 下载 `paper-pipeline-zh.skill`：
 
 ```bash
-cp -r paper-pipeline-zh ~/.claude/skills/
+# 下载后放入skills目录
+cp paper-pipeline-zh.skill ~/.claude/skills/
+```
+
+### 方法2: 克隆源码
+
+```bash
+git clone https://github.com/Markzou46/PaperReaderZQ.git
+cp -r PaperReaderZQ/paper-pipeline-zh ~/.claude/skills/
 ```
 
 ## 使用方法
